@@ -1,0 +1,143 @@
+{% extends "core/base.html" %}
+
+{% block title %}Register - AutoInfo{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 4rem auto; padding: 2rem;">
+    <div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Create Account</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- First Name -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">First Name</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.first_name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Last Name -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Last Name</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.last_name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.email.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Username -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.password1.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.password2.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Terms -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    {{ form.accept_terms }}
+                    <span>I accept the <a href="{% url 'terms' %}" style="color: #1E88E5;">Terms of Service</a></span>
+                </label>
+                {% if form.accept_terms.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.accept_terms.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #1E88E5, #2196F3); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                Register
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: #757575;">
+            Already have an account?
+            <a href="{% url 'login' %}" style="color: #1E88E5;">Login here</a>
+        </p>
+    </div>
+</div>
+
+<style>
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: #1E88E5;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+</style>
+{% endblock %}
+```
+
+---
+
+## 🔍 ARBA PATIKRINK:
+
+**Eik į Zed editorių ir pažiūrėk ar failas egzistuoja čia:**
+```
+apps/
+  └── core/
+      └── templates/
+          └── core/
+              ├── index.html ✅
+              ├── register.html ❓ ČIA TURI BŪTI!
+              ├── login.html
+              └── ...

@@ -1,0 +1,89 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Pricing - AutoInfo{% endblock %}
+
+{% block content %}
+<section class="pricing-section">
+    <div class="container">
+        <h2 class="section-title">Pricing Plans</h2>
+        <p class="section-subtitle">Choose the package that fits your needs</p>
+
+        <div class="pricing-cards">
+            <!-- AUTOCHECK -->
+            <div class="pricing-card">
+                <h3>Autocheck</h3>
+                <div class="price">
+                    <span class="price-small">{{ prices.autocheck.single }}</span> PLN
+                </div>
+                <span class="price-period">per report</span>
+
+                <ul class="pricing-features">
+                    <li>Full vehicle history</li>
+                    <li>Accident records</li>
+                    <li>Ownership history</li>
+                    <li>Title information</li>
+                </ul>
+
+                <div style="margin: 1.5rem 0;">
+                    <strong>Package Discounts:</strong><br>
+                    10 reports: {{ prices.autocheck.pack_10 }} PLN/pc<br>
+                    100 reports: {{ prices.autocheck.pack_100 }} PLN/pc
+                </div>
+
+                <a href="{% url 'register' %}" class="btn-outline">Get Started</a>
+            </div>
+
+            <!-- CARFAX - FEATURED -->
+            <div class="pricing-card featured">
+                <span class="featured-badge">Most Popular</span>
+                <h3>Carfax</h3>
+                <div class="price">
+                    <span class="price-small">{{ prices.carfax.single }}</span> PLN
+                </div>
+                <span class="price-period">per report</span>
+
+                <ul class="pricing-features">
+                    <li>Comprehensive vehicle history</li>
+                    <li>Service records</li>
+                    <li>Accident & damage reports</li>
+                    <li>Mileage verification</li>
+                    <li>Title & ownership info</li>
+                </ul>
+
+                <div style="margin: 1.5rem 0;">
+                    <strong>Package Discounts:</strong><br>
+                    10 reports: {{ prices.carfax.pack_10 }} PLN/pc<br>
+                    100 reports: {{ prices.carfax.pack_100 }} PLN/pc
+                </div>
+
+                <a href="{% url 'register' %}" class="btn-outline">Get Started</a>
+            </div>
+
+            <!-- NMVTIS -->
+            <div class="pricing-card">
+                <h3>NMVTIS</h3>
+                <div class="price">
+                    <span class="price-small">{{ prices.nmvtis.single }}</span> PLN
+                </div>
+                <span class="price-period">per report</span>
+
+                <ul class="pricing-features">
+                    <li>Government database</li>
+                    <li>Brand history</li>
+                    <li>Salvage records</li>
+                    <li>Junk & insurance total loss</li>
+                </ul>
+
+                <div style="margin: 1.5rem 0;">
+                    <strong>Package Discounts:</strong><br>
+                    10 reports: {{ prices.nmvtis.pack_10 }} PLN/pc<br>
+                    100 reports: {{ prices.nmvtis.pack_100 }} PLN/pc
+                </div>
+
+                <a href="{% url 'register' %}" class="btn-outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

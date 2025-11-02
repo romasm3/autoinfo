@@ -1,0 +1,178 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - AutoInfo{% endblock %}
+
+{% block content %}
+<section style="padding: 2rem;">
+    <div class="container">
+        <h1 style="margin-bottom: 2rem;">Welcome, {{ user.first_name }}!</h1>
+
+        <!-- STATISTICS CARDS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <!-- Balance Card -->
+            <div style="background: linear-gradient(135deg, #1E88E5, #2196F3); color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; opacity: 0.9;">Account Balance</h3>
+                <p style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">{{ user.profile.balance }} PLN</p>
+                <a href="{% url 'add_funds' %}" class="btn-outline" style="background: white; color: #1E88E5; border-color: white;">Add Funds</a>
+            </div>
+
+            <!-- Total Reports Card -->
+            <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #F5F5F5;">
+                <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; color: #757575;">Total Reports</h3>
+                <p style="font-size: 2rem; font-weight: 700; color: #1E88E5; margin-bottom: 1rem;">{{ total_reports }}</p>
+            </div>
+
+            <!-- Member Since Card -->
+            <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #F5F5F5;">
+                <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; color: #757575;">Member Since</h3>
+                <p style="font-size: 1.5rem; font-weight: 700; color: #1E88E5;">{{ user.date_joined|date:"F Y" }}</p>
+            </div>
+        </div>
+
+        <!-- VIN SEARCH FORM -->
+        <div style="background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 3rem;">
+            <h2 style="margin-bottom: 1.5rem;">Check Vehicle VIN</h2>
+
+            <form id="vin-search-form" method="POST">
+                {% csrf_token %}
+
+                <div style="display: grid; grid-template-columns: 1fr 200px 150px; gap: 1rem;">
+                    <!-- VIN Input -->
+                    <div class="form-group" style="margin: 0;">
+                        <input type="text"
+                               name="vin"
+                               id="vin-input"
+                               class="form-control"
+                               placeholder="Enter 17-character VIN"
+                               maxlength="17"
+                               style="text-transform: uppercase;"
+                               required>
+                    </div>
+
+                    <!-- Report Type -->
+                    <div class="form-group" style="margin: 0;">
+                        <select name="report_type" id="report-type" class="form-control" required>
+                            <option value="carfax">Carfax</option>
+                            <option value="autocheck">Autocheck</option>
+                            <option value="nmvtis">NMVTIS</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary">Search VIN</button>
+                </div>
+            </form>
+
+            <!-- Search Results -->
+            <div id="search-results" style="margin-top: 2rem;"></div>
+        </div>
+
+        <!-- RECENT REPORTS -->
+        <div id="reports-history">
+            <h2 style="margin-bottom: 1.5rem;">Recent Reports</h2>
+
+            {% if reports %}
+                <div style="background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #F5F5F5;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Date</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">VIN</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Type</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Score</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Price</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in reports %}
+                            <tr style="border-bottom: 1px solid #F5F5F5;">
+                                <td style="padding: 1rem;">{{ report.created_at|date:"Y-m-d H:i" }}</td>
+                                <td style="padding: 1rem; font-family: monospace;">{{ report.vin }}</td>
+                                <td style="padding: 1rem;">
+                                    <span style="background: #1E88E5; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">
+                                        {{ report.get_report_type_display }}
+                                    </span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <strong style="color: {{ report.score_color }};">
+                                        {{ report.score }}/100
+                                    </strong>
+                                </td>
+                                <td style="padding: 1rem;">{{ report.price_paid }} PLN</td>
+                                <td style="padding: 1rem;">
+                                    <a href="{% url 'view_report' report.id %}" style="color: #1E88E5; text-decoration: none;">View →</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div style="background: white; padding: 3rem; border-radius: 8px; text-align: center; color: #757575;">
+                    <p>You haven't purchased any reports yet.</p>
+                    <p style="margin-top: 1rem;">Use the search form above to get your first report!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- VIN Search JavaScript -->
+<script>
+document.getElementById('vin-search-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const vin = document.getElementById('vin-input').value;
+    const reportType = document.getElementById('report-type').value;
+    const resultsDiv = document.getElementById('search-results');
+
+    // Show loading
+    resultsDiv.innerHTML = '<div class="spinner"></div>';
+
+    try {
+        const response = await fetch('{% url "search_vin" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ vin, reportType })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            resultsDiv.innerHTML = `
+                <div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 1rem; border-radius: 8px;">
+                    <strong>Success!</strong> Report generated for VIN: ${data.report.vin}<br>
+                    Score: ${data.report.score}/100 | Accidents: ${data.report.accidents} | Owners: ${data.report.owners}
+                    <br><br>
+                    <a href="/report/${data.report.id}/" class="btn-primary">View Full Report</a>
+                </div>
+            `;
+            // Refresh page after 2 seconds
+            setTimeout(() => location.reload(), 2000);
+        } else {
+            resultsDiv.innerHTML = `
+                <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 8px;">
+                    <strong>Error:</strong> ${data.message}
+                </div>
+            `;
+        }
+    } catch (error) {
+        resultsDiv.innerHTML = `
+            <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 8px;">
+                <strong>Error:</strong> An error occurred. Please try again.
+            </div>
+        `;
+    }
+});
+
+// VIN uppercase
+document.getElementById('vin-input').addEventListener('input', function(e) {
+    this.value = this.value.toUpperCase();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "core/base.html" %}
+
+{% block title %}Login - AutoInfo{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 4rem auto; padding: 2rem;">
+    <div style="background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Login to Your Account</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Email -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email:</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password:</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                        {{ form.password.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Non-field errors (wrong credentials) -->
+            {% if form.non_field_errors %}
+                <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                </div>
+            {% endif %}
+
+            <!-- Remember Me + Forgot Password -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    {{ form.remember_me }}
+                    <span>Remember me</span>
+                </label>
+                <a href="{% url 'password_reset' %}" style="color: #1E88E5; text-decoration: none; font-size: 0.9rem;">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" style="width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #1E88E5, #2196F3); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                Login
+            </button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: #757575;">
+            Don't have an account?
+            <a href="{% url 'register' %}" style="color: #1E88E5; text-decoration: none;">Register here</a>
+        </p>
+    </div>
+</div>
+
+<style>
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: #1E88E5;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.3);
+    transition: all 0.3s ease;
+}
+</style>
+{% endblock %}

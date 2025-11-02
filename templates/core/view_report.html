@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Report {{ report.vin }} - AutoInfo{% endblock %}
+
+{% block content %}
+<section style="padding: 2rem;">
+    <div class="container" style="max-width: 900px; margin: 0 auto;">
+        <a href="{% url 'dashboard' %}" style="color: #1E88E5; text-decoration: none; margin-bottom: 1rem; display: inline-block;">
+            ← Back to Dashboard
+        </a>
+
+        <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            <!-- Report Header -->
+            <div style="border-bottom: 2px solid #F5F5F5; padding-bottom: 1rem; margin-bottom: 2rem;">
+                <h1 style="margin-bottom: 0.5rem;">Vehicle Report</h1>
+                <p style="color: #757575;">VIN: <strong>{{ report.vin }}</strong></p>
+                <p style="color: #757575;">Report Type: <strong>{{ report.get_report_type_display }}</strong></p>
+                <p style="color: #757575;">Generated: {{ report.created_at|date:"F d, Y H:i" }}</p>
+            </div>
+
+            <!-- Score Display -->
+            <div style="text-align: center; margin: 2rem 0;">
+                <div style="width: 150px; height: 150px; border-radius: 50%; border: 10px solid #1E88E5; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <div>
+                        <div style="font-size: 3rem; font-weight: 700; color: #1E88E5;">{{ report.score }}</div>
+                        <div style="color: #757575;">/ 100</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Details -->
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin: 2rem 0;">
+                <div>
+                    <h3 style="margin-bottom: 0.5rem; color: #1E88E5;">Accidents</h3>
+                    <p style="font-size: 1.5rem; font-weight: 700;">{{ report.accidents }}</p>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 0.5rem; color: #1E88E5;">Previous Owners</h3>
+                    <p style="font-size: 1.5rem; font-weight: 700;">{{ report.owners }}</p>
+                </div>
+            </div>
+
+            <!-- Additional Data -->
+            {% if report.report_data %}
+            <div style="background: #F5F5F5; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Additional Information</h3>
+                <pre style="white-space: pre-wrap; font-family: monospace; font-size: 0.875rem;">{{ report.report_data|pprint }}</pre>
+            </div>
+            {% endif %}
+
+            <!-- Print Button -->
+            <div style="text-align: center; margin-top: 2rem;">
+                <button onclick="window.print()" class="btn-primary">Print Report</button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

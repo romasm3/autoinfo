@@ -1,0 +1,63 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Add Funds - AutoInfo{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem;">
+    <div class="form-container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Add Funds to Your Account</h2>
+
+        <form method="POST" action="{% url 'add_funds' %}">
+            {% csrf_token %}
+
+            <!-- Amount Selection -->
+            <div class="form-group">
+                <label>Select Amount</label>
+                {% for choice in form.amount_choice %}
+                    <div style="margin: 0.5rem 0;">
+                        {{ choice }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Custom Amount (hidden by default) -->
+            <div class="form-group" id="custom-amount-field" style="display: none;">
+                {{ form.custom_amount.label_tag }}
+                {{ form.custom_amount }}
+            </div>
+
+            <!-- Payment Method -->
+            <div class="form-group">
+                {{ form.payment_method.label_tag }}
+                {{ form.payment_method }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn-primary btn-full">Proceed to Payment</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: #757575;">
+            <a href="{% url 'dashboard' %}" style="color: #1E88E5;">← Back to Dashboard</a>
+        </p>
+    </div>
+</section>
+
+<script>
+// Show/hide custom amount field
+document.addEventListener('DOMContentLoaded', function() {
+    const radioButtons = document.querySelectorAll('input[name="amount_choice"]');
+    const customField = document.getElementById('custom-amount-field');
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            if (this.value === 'custom') {
+                customField.style.display = 'block';
+            } else {
+                customField.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

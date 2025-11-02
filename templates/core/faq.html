@@ -1,0 +1,83 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}FAQ - AutoInfo{% endblock %}
+
+{% block content %}
+<section class="faq-section">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Find answers to common questions</p>
+
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>How to pay for the report?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    You can pay using BLIK, Przelewy24, or credit card.
+                    After registration, top up your account balance and purchase reports instantly.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>How long does it take to generate a report?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Reports are generated automatically within seconds.
+                    Our system works 24/7, so you can get your report at any time.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What information is included?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Reports include complete vehicle history: accident records,
+                    number of previous owners, service history, title information,
+                    mileage verification, and much more.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Can I get a refund?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes, we offer refunds within 14 days if the report contains errors
+                    or doesn't meet the described specifications.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Are package discounts available?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes! We offer packages of 10 and 100 reports with significant discounts.
+                    The more reports you purchase, the lower the price per report.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Which report type should I choose?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Carfax is the most comprehensive and popular option.
+                    Autocheck is a good alternative with competitive pricing.
+                    NMVTIS provides government database information.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

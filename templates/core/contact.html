@@ -1,0 +1,76 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Contact - AutoInfo{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem;">
+    <div class="container" style="max-width: 800px; margin: 0 auto;">
+        <h2 style="text-align: center; margin-bottom: 1rem;">Contact Us</h2>
+        <p style="text-align: center; color: #757575; margin-bottom: 3rem;">
+            Have a question? We'd love to hear from you.
+        </p>
+
+        <div class="form-container">
+            <form method="POST" action="{% url 'contact' %}">
+                {% csrf_token %}
+
+                <!-- Name -->
+                <div class="form-group">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error-message" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {% for error in form.name.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="error-message" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {% for error in form.email.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Subject -->
+                <div class="form-group">
+                    {{ form.subject.label_tag }}
+                    {{ form.subject }}
+                    {% if form.subject.errors %}
+                        <div class="error-message" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {% for error in form.subject.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Message -->
+                <div class="form-group">
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <div class="error-message" style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                            {% for error in form.message.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-primary btn-full">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div style="margin-top: 3rem; text-align: center;">
+            <h3 style="margin-bottom: 1rem;">Other Ways to Reach Us</h3>
+            <p style="color: #757575;">
+                Email: <a href="mailto:support@autoinfo.com" style="color: #1E88E5;">support@autoinfo.com</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
