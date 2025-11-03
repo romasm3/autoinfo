@@ -1,12 +1,12 @@
 {% load static %}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="AutoInfo - Check vehicle history from US and Canada">
     <title>{% block title %}AutoInfo - Vehicle History{% endblock %}</title>
-
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
     {% block extra_css %}{% endblock %}
@@ -18,21 +18,26 @@
             <a href="{% url 'index' %}" class="logo">
                 <span class="logo-text">AUTOINFO</span>
             </a>
-
             <ul class="nav-links">
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'pricing' %}">Pricing</a></li>
+                <li><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+                <li><a href="{% url 'pricing' %}">{% trans "Pricing" %}</a></li>
                 <li><a href="{% url 'faq' %}">FAQ</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-
+                <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <!-- LANGUAGE SWITCHER -->
+                    <li>
+                        {% include 'core/includes/language_switcher.html' %}
+                    </li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
+                    <!-- LANGUAGE SWITCHER -->
+                    <li>
+                        {% include 'core/includes/language_switcher.html' %}
+                    </li>
                     <li><a href="{% url 'login' %}" class="btn-primary">Login</a></li>
                 {% endif %}
             </ul>
-
             <button class="mobile-menu-toggle" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
@@ -40,7 +45,6 @@
             </button>
         </nav>
     </header>
-
     <!-- MESSAGES -->
     {% if messages %}
         <div class="container" style="padding-top: 1rem;">
@@ -51,52 +55,45 @@
             {% endfor %}
         </div>
     {% endif %}
-
     <!-- MAIN CONTENT -->
     <main>
         {% block content %}{% endblock %}
     </main>
-
     <!-- FOOTER -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h4>AutoInfo</h4>
-                <p>Professional vehicle history reports.</p>
+                <p>{% trans "Professional vehicle history reports." %}</p>
             </div>
-
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4>{% trans "Quick Links" %}</h4>
                 <ul>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'pricing' %}">Pricing</a></li>
+                    <li><a href="{% url 'index' %}">{% trans "Home" %}</a></li>
+                    <li><a href="{% url 'pricing' %}">{% trans "Pricing" %}</a></li>
                     <li><a href="{% url 'faq' %}">FAQ</a></li>
                 </ul>
             </div>
-
             <div class="footer-section">
-                <h4>Reports</h4>
+                <h4>{% trans "Reports" %}</h4>
                 <ul>
                     <li><a href="#">Carfax</a></li>
                     <li><a href="#">Autocheck</a></li>
                     <li><a href="#">NMVTIS</a></li>
                 </ul>
             </div>
-
             <div class="footer-section">
-                <h4>Legal</h4>
+                <h4>{% trans "Legal" %}</h4>
                 <ul>
-                    <li><a href="{% url 'terms' %}">Terms</a></li>
-                    <li><a href="{% url 'privacy' %}">Privacy</a></li>
+                    <li><a href="{% url 'terms' %}">{% trans "Terms" %}</a></li>
+                    <li><a href="{% url 'privacy' %}">{% trans "Privacy" %}</a></li>
                 </ul>
             </div>
         </div>
-
         <div class="footer-bottom">
-            <p>&copy; 2025 AutoInfo. All rights reserved.</p>
+            <p>&copy; 2025 AutoInfo. {% trans "All rights reserved." %}</p>
         </div>
     </footer>
-
     <!-- JavaScript -->
     <script src="{% static 'core/js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}

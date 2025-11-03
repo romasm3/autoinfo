@@ -1,0 +1,391 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Buy Credits - AutoInfo{% endblock %}
+
+{% block extra_css %}
+<style>
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    position: relative;
+}
+
+.pricing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.pricing-card.popular {
+    border: 3px solid #1E88E5;
+    transform: scale(1.05);
+}
+
+.popular-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: linear-gradient(135deg, #1E88E5, #2196F3);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
+}
+
+.report-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #1E88E5, #2196F3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.report-type {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #212121;
+}
+
+.report-quantity {
+    font-size: 1rem;
+    color: #757575;
+    margin-bottom: 1rem;
+}
+
+.price-container {
+    margin: 1.5rem 0;
+}
+
+.price-main {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1E88E5;
+}
+
+.price-currency {
+    font-size: 1.5rem;
+    color: #757575;
+}
+
+.price-per {
+    font-size: 0.9rem;
+    color: #757575;
+    margin-top: 0.5rem;
+}
+
+.price-total {
+    font-size: 1rem;
+    color: #424242;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.buy-button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #1E88E5, #2196F3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.buy-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+}
+
+.buy-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #212121;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #757575;
+}
+
+.payment-secure {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: #F5F5F5;
+    border-radius: 8px;
+}
+
+.payment-secure svg {
+    width: 24px;
+    height: 24px;
+    fill: #28a745;
+    display: inline-block;
+    margin-right: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem; background: #FAFAFA;">
+    <div class="section-header">
+        <h1 class="section-title">Buy Report Credits</h1>
+        <p class="section-subtitle">Choose your package and get instant access to vehicle reports</p>
+    </div>
+
+    <!-- CARFAX Reports -->
+    <div style="margin-bottom: 4rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; color: #1E88E5;">
+            🦊 Carfax Reports
+        </h2>
+        <div class="pricing-grid">
+            <!-- 1 Carfax -->
+            <div class="pricing-card">
+                <div class="report-icon">🦊</div>
+                <div class="report-type">Carfax</div>
+                <div class="report-quantity">1 Report</div>
+                <div class="price-container">
+                    <div class="price-main">€14.99</div>
+                    <div class="price-per">€14.99 per report</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('carfax', 1, 14.99)">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- 10 Carfax -->
+            <div class="pricing-card popular">
+                <span class="popular-badge">Popular</span>
+                <div class="report-icon">🦊</div>
+                <div class="report-type">Carfax</div>
+                <div class="report-quantity">10 Reports</div>
+                <div class="price-container">
+                    <div class="price-main">€129.90</div>
+                    <div class="price-per">€12.99 per report</div>
+                    <div class="price-total">Save €20!</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('carfax', 10, 129.90)">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- 100 Carfax -->
+            <div class="pricing-card">
+                <div class="report-icon">🦊</div>
+                <div class="report-type">Carfax</div>
+                <div class="report-quantity">100 Reports</div>
+                <div class="price-container">
+                    <div class="price-main">€999.00</div>
+                    <div class="price-per">€9.99 per report</div>
+                    <div class="price-total">Save €500!</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('carfax', 100, 999.00)">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTOCHECK Reports -->
+    <div style="margin-bottom: 4rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; color: #1E88E5;">
+            ⭐ Autocheck Reports
+        </h2>
+        <div class="pricing-grid">
+            <!-- 1 Autocheck -->
+            <div class="pricing-card">
+                <div class="report-icon">⭐</div>
+                <div class="report-type">Autocheck</div>
+                <div class="report-quantity">1 Report</div>
+                <div class="price-container">
+                    <div class="price-main">€12.99</div>
+                    <div class="price-per">€12.99 per report</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('autocheck', 1, 12.99)">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- 10 Autocheck -->
+            <div class="pricing-card">
+                <div class="report-icon">⭐</div>
+                <div class="report-type">Autocheck</div>
+                <div class="report-quantity">10 Reports</div>
+                <div class="price-container">
+                    <div class="price-main">€119.90</div>
+                    <div class="price-per">€11.99 per report</div>
+                    <div class="price-total">Save €10!</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('autocheck', 10, 119.90)">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- 100 Autocheck -->
+            <div class="pricing-card">
+                <div class="report-icon">⭐</div>
+                <div class="report-type">Autocheck</div>
+                <div class="report-quantity">100 Reports</div>
+                <div class="price-container">
+                    <div class="price-main">€999.00</div>
+                    <div class="price-per">€9.99 per report</div>
+                    <div class="price-total">Save €300!</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('autocheck', 100, 999.00)">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NMVTIS Reports -->
+    <div style="margin-bottom: 4rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem; color: #1E88E5;">
+            🏛️ NMVTIS Reports
+        </h2>
+        <div class="pricing-grid">
+            <!-- 1 NMVTIS -->
+            <div class="pricing-card">
+                <div class="report-icon">🏛️</div>
+                <div class="report-type">NMVTIS</div>
+                <div class="report-quantity">1 Report</div>
+                <div class="price-container">
+                    <div class="price-main">€19.99</div>
+                    <div class="price-per">€19.99 per report</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('nmvtis', 1, 19.99)">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- 10 NMVTIS -->
+            <div class="pricing-card">
+                <div class="report-icon">🏛️</div>
+                <div class="report-type">NMVTIS</div>
+                <div class="report-quantity">10 Reports</div>
+                <div class="price-container">
+                    <div class="price-main">€169.90</div>
+                    <div class="price-per">€16.99 per report</div>
+                    <div class="price-total">Save €30!</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('nmvtis', 10, 169.90)">
+                    Buy Now
+                </button>
+            </div>
+
+            <!-- 100 NMVTIS -->
+            <div class="pricing-card">
+                <div class="report-icon">🏛️</div>
+                <div class="report-type">NMVTIS</div>
+                <div class="report-quantity">100 Reports</div>
+                <div class="price-container">
+                    <div class="price-main">€1399.00</div>
+                    <div class="price-per">€13.99 per report</div>
+                    <div class="price-total">Save €600!</div>
+                </div>
+                <button class="buy-button" onclick="buyCredits('nmvtis', 100, 1399.00)">
+                    Buy Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secure Payment Badge -->
+    <div class="payment-secure">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+        <strong>Secure Payment</strong> powered by Stripe
+        <div style="margin-top: 1rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+            <span>💳 Credit Card</span>
+            <span>💳 Debit Card</span>
+            <span>🔒 256-bit SSL</span>
+        </div>
+    </div>
+</section>
+
+<!-- Stripe Checkout Script -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// Initialize Stripe
+const stripe = Stripe('{{ stripe_public_key }}');
+
+async function buyCredits(reportType, quantity, amount) {
+    // Disable button
+    event.target.disabled = true;
+    event.target.textContent = 'Processing...';
+
+    try {
+        // Create checkout session
+        const response = await fetch('/create-checkout-session/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                report_type: reportType,
+                quantity: quantity,
+                amount: amount
+            })
+        });
+
+        const session = await response.json();
+
+        if (session.error) {
+            alert('Error: ' + session.error);
+            event.target.disabled = false;
+            event.target.textContent = 'Buy Now';
+            return;
+        }
+
+        // Redirect to Stripe Checkout
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id
+        });
+
+        if (result.error) {
+            alert(result.error.message);
+            event.target.disabled = false;
+            event.target.textContent = 'Buy Now';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+        event.target.disabled = false;
+        event.target.textContent = 'Buy Now';
+    }
+}
+</script>
+{% endblock %}

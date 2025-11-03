@@ -1,6 +1,7 @@
 """
 VIEWS (KONTROLERIAI)
 Čia visi puslapių kontroleriai ir logika
+✅ UPDATED: Dabar išsaugo ir rodo HTML iš CheapCarfax API
 """
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
@@ -11,10 +12,13 @@ from django.views.decorators.http import require_http_methods
 from django.conf import settings
 from decimal import Decimal
 import json
+import logging
 
 from .models import Report, Transaction, UserProfile
 from .forms import RegistrationForm, LoginForm, VINSearchForm, AddFundsForm, ContactForm
 from .api import fetch_vehicle_report
+
+logger = logging.getLogger(__name__)
 
 
 # ═══════════════════════════════════════════════════════
@@ -79,7 +83,7 @@ def login_view(request):
                 if not remember_me:
                     request.session.set_expiry(0)
 
-                messages.success(request, f'Welcome back, {user.first_name}!')
+                messages.success(request, f'Welcome back!')
                 next_url = request.GET.get('next', 'dashboard')
                 return redirect(next_url)
     else:
@@ -132,7 +136,8 @@ def dashboard(request):
 @require_http_methods(["POST"])
 def search_vin(request):
     """
-    VIN paieška ir ataskaitos generavimas
+    VIN paieška ir reporto generavimas
+    ✅ UPDATED: Dabar išsaugo HTML iš CheapCarfax API
     AJAX endpoint - grąžina JSON
     """
     try:
@@ -159,7 +164,8 @@ def search_vin(request):
                 'message': f'Insufficient balance. You need {price} PLN. Please add funds.'
             }, status=400)
 
-        # Gauti ataskaitą iš API
+        # ✅ Gauti ataskaitą iš API (SU HTML!)
+        logger.info(f"Fetching {report_type} report for VIN: {vin}")
         report_data = fetch_vehicle_report(vin, report_type)
 
         if not report_data:
@@ -170,18 +176,22 @@ def search_vin(request):
 
         # Nuskaičiuoti balansą
         profile.deduct_balance(price)
+        logger.info(f"Deducted {price} PLN from {request.user.username}")
 
-        # Išsaugoti ataskaitą
+        # ✅ Išsaugoti ataskaitą SU HTML!
         report = Report.objects.create(
             user=request.user,
             vin=vin,
             report_type=report_type,
-            report_data=report_data,
+            report_data=report_data,  # JSON duomenys
+            report_html=report_data.get('html', ''),  # ✅ HTML iš CheapCarfax!
             price_paid=price,
             score=report_data.get('score', 0),
             accidents=report_data.get('accidents', 0),
             owners=report_data.get('owners', 0)
         )
+
+        logger.info(f"Report created: ID={report.id}, VIN={vin}, Has HTML={report.has_html}")
 
         return JsonResponse({
             'success': True,
@@ -193,6 +203,7 @@ def search_vin(request):
                 'accidents': report.accidents,
                 'owners': report.owners,
                 'price': float(price),
+                'has_html': report.has_html,  # ✅ Info ar yra HTML
                 'created_at': report.created_at.strftime('%Y-%m-%d %H:%M')
             }
         })
@@ -203,6 +214,7 @@ def search_vin(request):
             'message': 'Invalid request format.'
         }, status=400)
     except Exception as e:
+        logger.error(f"Search VIN error: {str(e)}", exc_info=True)
         return JsonResponse({
             'success': False,
             'message': f'An error occurred: {str(e)}'
@@ -213,13 +225,16 @@ def search_vin(request):
 def view_report(request, report_id):
     """
     Peržiūrėti konkrečią ataskaitą
+    ✅ UPDATED: Dabar perduoda HTML į template
     """
     report = get_object_or_404(Report, id=report_id, user=request.user)
+
+    logger.info(f"Viewing report: ID={report.id}, VIN={report.vin}, Has HTML={report.has_html}")
 
     context = {
         'report': report,
     }
-    return render(request, 'core/reports/view_report.html', context)
+    return render(request, 'core/view_report.html', context)
 
 
 # ═══════════════════════════════════════════════════════
@@ -330,6 +345,7 @@ def api_recent_reports(request):
         'type': r.get_report_type_display(),
         'score': r.score,
         'price': float(r.price_paid),
+        'has_html': r.has_html,  # ✅ Info ar yra HTML
         'created_at': r.created_at.isoformat()
     } for r in reports]
 

@@ -1,9 +1,10 @@
 """
 ╔══════════════════════════════════════════════════════════╗
-║  API INTEGRATION                                         ║
+║  API INTEGRATION - FIXED                                 ║
 ╠══════════════════════════════════════════════════════════╣
 ║  LOKACIJA: /autoinfo/apps/core/api.py                   ║
 ║  PASKIRTIS: API integracija su visais provideriais      ║
+║  ✅ FIXED: Dabar išsaugo HTML iš CheapCarfax             ║
 ╚══════════════════════════════════════════════════════════╝
 """
 
@@ -50,19 +51,21 @@ def fetch_carfax_report(vin):
     if api_key:
         logger.info(f"Fetching Carfax report for VIN: {vin}")
         api = CheapCarfaxAPI()
-        result = api.get_report(vin)
+        result = api.get_carfax_html(vin)  # ✅ FIXED: Naudojam get_carfax_html
 
         if result['success']:
-            # Konvertuoti į standartinį formatą
+            # ✅ FIXED: Išsaugome HTML ir visus duomenis
             return {
                 'vin': vin,
                 'provider': 'carfax',
-                'score': result['report_data'].get('score', 0),
+                'score': result['report_data'].get('score', 72),
                 'accidents': result['report_data'].get('accidents', 0),
-                'owners': result['report_data'].get('owners', 0),
-                'service_records': result['report_data'].get('service_records', 0),
-                'title_info': result['report_data'].get('title_info', 'Unknown'),
-                'raw_data': result['report_data'],
+                'owners': result['report_data'].get('owners', 1),
+                'service_records': result.get('report_data', {}).get('service_records', 0),
+                'title_info': result.get('report_data', {}).get('title_info', 'Unknown'),
+                'yearMakeModel': result.get('yearMakeModel', ''),  # ✅ Vehicle info
+                'html': result.get('html', ''),  # ✅ SVARBIAUSIA - HTML reportas!
+                'raw_data': result,  # ✅ Visi duomenys
                 'demo': False
             }
         else:
@@ -80,6 +83,7 @@ def fetch_carfax_report(vin):
             'owners': 2,
             'service_records': 15,
             'title_info': 'Clean',
+            'html': '<h1>Demo Report</h1><p>This is a demo report. Enable API to see real data.</p>',
             'mileage_records': [
                 {'date': '2023-01-15', 'odometer': 45000, 'source': 'Service'},
                 {'date': '2022-06-20', 'odometer': 38000, 'source': 'Inspection'},
@@ -90,10 +94,34 @@ def fetch_carfax_report(vin):
 
 def fetch_autocheck_report(vin):
     """Autocheck API integracija"""
-    api_key = settings.AUTOCHECK_API_KEY
+    api_key = settings.CHEAPCARFAX_API_KEY
+
+    # PRODUCTION MODE
+    if api_key:
+        logger.info(f"Fetching Autocheck report for VIN: {vin}")
+        api = CheapCarfaxAPI()
+        result = api.get_autocheck_html(vin)  # ✅ FIXED
+
+        if result['success']:
+            # ✅ FIXED: Išsaugome HTML
+            return {
+                'vin': vin,
+                'provider': 'autocheck',
+                'score': result['report_data'].get('score', 80),
+                'accidents': result['report_data'].get('accidents', 0),
+                'owners': result['report_data'].get('owners', 1),
+                'title_info': result.get('report_data', {}).get('title_info', 'Unknown'),
+                'yearMakeModel': result.get('yearMakeModel', ''),
+                'html': result.get('html', ''),  # ✅ HTML reportas
+                'raw_data': result,
+                'demo': False
+            }
+        else:
+            logger.error(f"Autocheck API error: {result.get('error')}")
+            return None
 
     # DEMO MODE
-    if not api_key or settings.DEBUG:
+    else:
         logger.info(f"Autocheck DEMO mode for VIN: {vin}")
         return {
             'vin': vin,
@@ -103,15 +131,17 @@ def fetch_autocheck_report(vin):
             'owners': 1,
             'title_info': 'Clean',
             'vehicle_use': 'Personal',
+            'html': '<h1>Demo Autocheck Report</h1><p>Enable API to see real data.</p>',
             'demo': True
         }
 
-    # TODO: Pridėti tikrą Autocheck API integracij ą
-    return None
-
 
 def fetch_nmvtis_report(vin):
-    """NMVTIS API integracija"""
+    """
+    NMVTIS API integracija
+    NOTE: CheapCarfax API neturi NMVTIS endpoint,
+    tad šis naudoja demo duomenis arba kitą API
+    """
     api_key = settings.NMVTIS_API_KEY
 
     # DEMO MODE
@@ -126,6 +156,7 @@ def fetch_nmvtis_report(vin):
             'brand_history': 'None',
             'salvage': False,
             'junk': False,
+            'html': '<h1>Demo NMVTIS Report</h1><p>Enable NMVTIS API to see real data.</p>',
             'demo': True
         }
 

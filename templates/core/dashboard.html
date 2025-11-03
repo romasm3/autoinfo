@@ -3,121 +3,505 @@
 
 {% block title %}Dashboard - AutoInfo{% endblock %}
 
+{% block extra_css %}
+<style>
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 80px);
+    background: #F5F7FA;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #E5E7EB;
+    padding: 2rem 0;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+.sidebar-logo {
+    padding: 0 1.5rem 1.5rem;
+    border-bottom: 1px solid #E5E7EB;
+    margin-bottom: 1rem;
+}
+
+.sidebar-logo h2 {
+    font-size: 1.5rem;
+    color: #1E88E5;
+    margin: 0;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu-title {
+    padding: 1rem 1.5rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: #4B5563;
+    text-decoration: none;
+    transition: all 0.2s;
+    gap: 0.75rem;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+    background: #EFF6FF;
+    color: #1E88E5;
+    border-left: 3px solid #1E88E5;
+}
+
+.sidebar-menu li a svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+/* Buy Credits Buttons */
+.buy-credits-section {
+    padding: 1rem 1.5rem;
+    margin-top: auto;
+}
+
+.btn-buy-credits {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(135deg, #1E88E5, #2196F3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+}
+
+.btn-buy-credits:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+}
+
+.btn-buy-allegro {
+    background: linear-gradient(135deg, #FF5A00, #FF7635);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* Credits Cards */
+.credits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.credit-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+.credit-icon {
+    width: 60px;
+    height: 60px;
+    background: #EFF6FF;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+
+.credit-card h4 {
+    font-size: 0.875rem;
+    color: #6B7280;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.credit-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1E88E5;
+}
+
+.credit-card.total {
+    background: linear-gradient(135deg, #1E88E5, #2196F3);
+    color: white;
+}
+
+.credit-card.total .credit-icon {
+    background: rgba(255,255,255,0.2);
+}
+
+.credit-card.total h4,
+.credit-card.total .credit-amount {
+    color: white;
+}
+
+/* Report Generation Section */
+.report-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+}
+
+.report-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.report-form {
+    display: grid;
+    grid-template-columns: 1fr 200px 150px;
+    gap: 1rem;
+}
+
+.form-input {
+    padding: 0.75rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #1E88E5;
+}
+
+.btn-generate {
+    background: linear-gradient(135deg, #1E88E5, #2196F3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(30, 136, 229, 0.4);
+}
+
+/* Reports Table */
+.reports-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.reports-table h2 {
+    padding: 1.5rem;
+    margin: 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #F9FAFB;
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #F3F4F6;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.status-ready {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.status-pending {
+    background: #FEF3C7;
+    color: #92400E;
+}
+
+.btn-display {
+    padding: 0.5rem 1rem;
+    background: #1E88E5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-display:hover {
+    background: #1565C0;
+}
+
+/* Info Box */
+.info-box {
+    background: #EFF6FF;
+    border-left: 4px solid #1E88E5;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: start;
+    gap: 1rem;
+}
+
+.info-icon {
+    width: 24px;
+    height: 24px;
+    fill: #1E88E5;
+    flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .report-form {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<section style="padding: 2rem;">
-    <div class="container">
-        <h1 style="margin-bottom: 2rem;">Welcome, {{ user.first_name }}!</h1>
+<div class="dashboard-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <h2>AUTOREPORT</h2>
+        </div>
 
-        <!-- STATISTICS CARDS -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
-            <!-- Balance Card -->
-            <div style="background: linear-gradient(135deg, #1E88E5, #2196F3); color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; opacity: 0.9;">Account Balance</h3>
-                <p style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">{{ user.profile.balance }} PLN</p>
-                <a href="{% url 'add_funds' %}" class="btn-outline" style="background: white; color: #1E88E5; border-color: white;">Add Funds</a>
+        <div class="sidebar-menu-title">MENU</div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="{% url 'dashboard' %}" class="active">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                    </svg>
+                    Manage reports
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                    </svg>
+                    Report history
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                    </svg>
+                    Activation Instruction
+                </a>
+            </li>
+        </ul>
+
+        <div style="padding: 1.5rem; margin-top: auto;">
+            <a href="{% url 'buy_credits' %}" class="btn-buy-credits btn-buy-allegro">
+                Buy credits - Allegro
+            </a>
+            <a href="{% url 'buy_credits' %}" class="btn-buy-credits">
+                Buy credits
+            </a>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <img src="https://via.placeholder.com/120x50/FFFFFF/666666?text=Przelewy24" alt="Przelewy24" style="margin-bottom: 0.5rem;">
+                <img src="https://via.placeholder.com/120x50/FFFFFF/666666?text=BLIK" alt="BLIK">
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <h1 style="font-size: 2rem; margin-bottom: 2rem;">Manage reports</h1>
+
+        <!-- Available Credits -->
+        <h3 style="margin-bottom: 1rem; color: #6B7280;">Available credits</h3>
+        <div class="credits-grid">
+            <div class="credit-card">
+                <div class="credit-icon">🦊</div>
+                <h4>Carfax</h4>
+                <div class="credit-amount">0</div>
             </div>
 
-            <!-- Total Reports Card -->
-            <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #F5F5F5;">
-                <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; color: #757575;">Total Reports</h3>
-                <p style="font-size: 2rem; font-weight: 700; color: #1E88E5; margin-bottom: 1rem;">{{ total_reports }}</p>
+            <div class="credit-card">
+                <div class="credit-icon">⭐</div>
+                <h4>Autocheck</h4>
+                <div class="credit-amount">4</div>
             </div>
 
-            <!-- Member Since Card -->
-            <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: 2px solid #F5F5F5;">
-                <h3 style="margin-bottom: 0.5rem; font-size: 0.9rem; color: #757575;">Member Since</h3>
-                <p style="font-size: 1.5rem; font-weight: 700; color: #1E88E5;">{{ user.date_joined|date:"F Y" }}</p>
+            <div class="credit-card">
+                <div class="credit-icon">🏛️</div>
+                <h4>NMVTIS (3 reports)</h4>
+                <div class="credit-amount">0</div>
+            </div>
+
+            <div class="credit-card total">
+                <div class="credit-icon">⚡</div>
+                <h4>Total Generated</h4>
+                <div class="credit-amount">35</div>
             </div>
         </div>
 
-        <!-- VIN SEARCH FORM -->
-        <div style="background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 3rem;">
-            <h2 style="margin-bottom: 1.5rem;">Check Vehicle VIN</h2>
-
-            <form id="vin-search-form" method="POST">
+        <!-- Generate Report Section -->
+        <div class="report-section">
+            <h2>Generate report</h2>
+            <form class="report-form" id="vin-search-form">
                 {% csrf_token %}
+                <input type="text"
+                       id="vin-input"
+                       name="vin"
+                       class="form-input"
+                       placeholder="Enter a 17-digit VIN number"
+                       maxlength="17"
+                       style="text-transform: uppercase;"
+                       required>
 
-                <div style="display: grid; grid-template-columns: 1fr 200px 150px; gap: 1rem;">
-                    <!-- VIN Input -->
-                    <div class="form-group" style="margin: 0;">
-                        <input type="text"
-                               name="vin"
-                               id="vin-input"
-                               class="form-control"
-                               placeholder="Enter 17-character VIN"
-                               maxlength="17"
-                               style="text-transform: uppercase;"
-                               required>
-                    </div>
+                <select name="report_type" id="report-type" class="form-input" required>
+                    <option value="">Select report type</option>
+                    <option value="carfax">Carfax</option>
+                    <option value="autocheck">Autocheck</option>
+                    <option value="nmvtis">NMVTIS</option>
+                </select>
 
-                    <!-- Report Type -->
-                    <div class="form-group" style="margin: 0;">
-                        <select name="report_type" id="report-type" class="form-control" required>
-                            <option value="carfax">Carfax</option>
-                            <option value="autocheck">Autocheck</option>
-                            <option value="nmvtis">NMVTIS</option>
-                        </select>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn-primary">Search VIN</button>
-                </div>
+                <button type="submit" class="btn-generate">Generate</button>
             </form>
 
-            <!-- Search Results -->
-            <div id="search-results" style="margin-top: 2rem;"></div>
+            <div id="search-results" style="margin-top: 1.5rem;"></div>
         </div>
 
-        <!-- RECENT REPORTS -->
-        <div id="reports-history">
-            <h2 style="margin-bottom: 1.5rem;">Recent Reports</h2>
+        <!-- Activate Code Section -->
+        <div class="report-section">
+            <h2>Activate code / add credit</h2>
+            <form class="report-form">
+                <input type="text" class="form-input" placeholder="Enter a 10-digit activation code">
+                <div></div>
+                <button type="submit" class="btn-generate">Activate code</button>
+            </form>
+        </div>
 
-            {% if reports %}
-                <div style="background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden;">
-                    <table style="width: 100%; border-collapse: collapse;">
-                        <thead>
-                            <tr style="background-color: #F5F5F5;">
-                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Date</th>
-                                <th style="padding: 1rem; text-align: left; font-weight: 600;">VIN</th>
-                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Type</th>
-                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Score</th>
-                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Price</th>
-                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <!-- Info Box -->
+        <div class="info-box">
+            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+            </svg>
+            <p style="margin: 0; color: #1F2937;">
+                <strong>Information!</strong> Carfax and Autocheck reports are automatically generated within a few minutes of adding the VIN number.
+                You can check the status of the order in the status column of the table below.
+            </p>
+        </div>
+
+        <!-- Last 10 Reports Table -->
+        <div class="reports-table">
+            <h2>Last 10 reports</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>Type</th>
+                            <th>Generation date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if reports %}
                             {% for report in reports %}
-                            <tr style="border-bottom: 1px solid #F5F5F5;">
-                                <td style="padding: 1rem;">{{ report.created_at|date:"Y-m-d H:i" }}</td>
-                                <td style="padding: 1rem; font-family: monospace;">{{ report.vin }}</td>
-                                <td style="padding: 1rem;">
-                                    <span style="background: #1E88E5; color: white; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">
-                                        {{ report.get_report_type_display }}
-                                    </span>
+                            <tr>
+                                <td>
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <img src="https://via.placeholder.com/50" alt="Car" style="border-radius: 8px;">
+                                        <div>
+                                            <div style="font-weight: 600;">Vehicle Info</div>
+                                            <div style="color: #6B7280; font-size: 0.875rem;">{{ report.vin }}</div>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td style="padding: 1rem;">
-                                    <strong style="color: {{ report.score_color }};">
-                                        {{ report.score }}/100
-                                    </strong>
+                                <td>{{ report.get_report_type_display }}</td>
+                                <td>{{ report.created_at|date:"d/m/Y" }}</td>
+                                <td>
+                                    <span class="status-badge status-ready">Ready</span>
                                 </td>
-                                <td style="padding: 1rem;">{{ report.price_paid }} PLN</td>
-                                <td style="padding: 1rem;">
-                                    <a href="{% url 'view_report' report.id %}" style="color: #1E88E5; text-decoration: none;">View →</a>
+                                <td>
+                                    <a href="{% url 'view_report' report.id %}" class="btn-display">Display ↓</a>
                                 </td>
                             </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% else %}
-                <div style="background: white; padding: 3rem; border-radius: 8px; text-align: center; color: #757575;">
-                    <p>You haven't purchased any reports yet.</p>
-                    <p style="margin-top: 1rem;">Use the search form above to get your first report!</p>
-                </div>
-            {% endif %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 3rem; color: #6B7280;">
+                                    No reports yet. Generate your first report above!
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-</section>
+    </main>
+</div>
 
 <!-- VIN Search JavaScript -->
 <script>
@@ -127,6 +511,11 @@ document.getElementById('vin-search-form').addEventListener('submit', async func
     const vin = document.getElementById('vin-input').value;
     const reportType = document.getElementById('report-type').value;
     const resultsDiv = document.getElementById('search-results');
+
+    if (!reportType) {
+        resultsDiv.innerHTML = '<div style="background: #FEE2E2; border: 1px solid #FECACA; color: #991B1B; padding: 1rem; border-radius: 8px;">Please select a report type</div>';
+        return;
+    }
 
     // Show loading
     resultsDiv.innerHTML = '<div class="spinner"></div>';
@@ -145,7 +534,7 @@ document.getElementById('vin-search-form').addEventListener('submit', async func
 
         if (data.success) {
             resultsDiv.innerHTML = `
-                <div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 1rem; border-radius: 8px;">
+                <div style="background: #D1FAE5; border: 1px solid #A7F3D0; color: #065F46; padding: 1rem; border-radius: 8px;">
                     <strong>Success!</strong> Report generated for VIN: ${data.report.vin}<br>
                     Score: ${data.report.score}/100 | Accidents: ${data.report.accidents} | Owners: ${data.report.owners}
                     <br><br>
@@ -156,14 +545,14 @@ document.getElementById('vin-search-form').addEventListener('submit', async func
             setTimeout(() => location.reload(), 2000);
         } else {
             resultsDiv.innerHTML = `
-                <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 8px;">
+                <div style="background: #FEE2E2; border: 1px solid #FECACA; color: #991B1B; padding: 1rem; border-radius: 8px;">
                     <strong>Error:</strong> ${data.message}
                 </div>
             `;
         }
     } catch (error) {
         resultsDiv.innerHTML = `
-            <div style="background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 1rem; border-radius: 8px;">
+            <div style="background: #FEE2E2; border: 1px solid #FECACA; color: #991B1B; padding: 1rem; border-radius: 8px;">
                 <strong>Error:</strong> An error occurred. Please try again.
             </div>
         `;

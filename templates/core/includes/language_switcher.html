@@ -1,0 +1,237 @@
+{% load i18n %}
+
+<div class="language-switcher">
+    <button class="lang-btn" id="langButton">
+        {% get_current_language as LANGUAGE_CODE %}
+        {% if LANGUAGE_CODE == 'en' %}
+            <img src="https://flagcdn.com/w20/gb.png" alt="EN">
+            <span class="lang-text">EN</span>
+        {% elif LANGUAGE_CODE == 'lt' %}
+            <img src="https://flagcdn.com/w20/lt.png" alt="LT">
+            <span class="lang-text">LT</span>
+        {% elif LANGUAGE_CODE == 'lv' %}
+            <img src="https://flagcdn.com/w20/lv.png" alt="LV">
+            <span class="lang-text">LV</span>
+        {% elif LANGUAGE_CODE == 'pl' %}
+            <img src="https://flagcdn.com/w20/pl.png" alt="PL">
+            <span class="lang-text">PL</span>
+        {% elif LANGUAGE_CODE == 'de' %}
+            <img src="https://flagcdn.com/w20/de.png" alt="DE">
+            <span class="lang-text">DE</span>
+        {% elif LANGUAGE_CODE == 'ru' %}
+            <img src="https://flagcdn.com/w20/ru.png" alt="RU">
+            <span class="lang-text">RU</span>
+        {% elif LANGUAGE_CODE == 'es' %}
+            <img src="https://flagcdn.com/w20/es.png" alt="ES">
+            <span class="lang-text">ES</span>
+        {% elif LANGUAGE_CODE == 'fr' %}
+            <img src="https://flagcdn.com/w20/fr.png" alt="FR">
+            <span class="lang-text">FR</span>
+        {% else %}
+            <img src="https://flagcdn.com/w20/gb.png" alt="EN">
+            <span class="lang-text">EN</span>
+        {% endif %}
+        <svg class="lang-arrow" width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <path d="M6 9L1 4h10z"/>
+        </svg>
+    </button>
+
+    <div class="lang-dropdown" id="langDropdown">
+        <form action="{% url 'set_language' %}" method="post" id="language-form">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.path }}">
+
+            <button type="submit" name="language" value="en" class="lang-option {% if LANGUAGE_CODE == 'en' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/gb.png" alt="English">
+                <span>English</span>
+                {% if LANGUAGE_CODE == 'en' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="lt" class="lang-option {% if LANGUAGE_CODE == 'lt' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/lt.png" alt="Lithuanian">
+                <span>Lietuvių</span>
+                {% if LANGUAGE_CODE == 'lt' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="lv" class="lang-option {% if LANGUAGE_CODE == 'lv' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/lv.png" alt="Latvian">
+                <span>Latviešu</span>
+                {% if LANGUAGE_CODE == 'lv' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="pl" class="lang-option {% if LANGUAGE_CODE == 'pl' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/pl.png" alt="Polish">
+                <span>Polski</span>
+                {% if LANGUAGE_CODE == 'pl' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="de" class="lang-option {% if LANGUAGE_CODE == 'de' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/de.png" alt="German">
+                <span>Deutsch</span>
+                {% if LANGUAGE_CODE == 'de' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="ru" class="lang-option {% if LANGUAGE_CODE == 'ru' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/ru.png" alt="Russian">
+                <span>Русский</span>
+                {% if LANGUAGE_CODE == 'ru' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="es" class="lang-option {% if LANGUAGE_CODE == 'es' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/es.png" alt="Spanish">
+                <span>Español</span>
+                {% if LANGUAGE_CODE == 'es' %}<span style="margin-link: auto;">✓</span>{% endif %}
+            </button>
+
+            <button type="submit" name="language" value="fr" class="lang-option {% if LANGUAGE_CODE == 'fr' %}active{% endif %}">
+                <img src="https://flagcdn.com/w20/fr.png" alt="French">
+                <span>Français</span>
+                {% if LANGUAGE_CODE == 'fr' %}<span style="margin-left: auto;">✓</span>{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+
+<style>
+.language-switcher {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    transition: all 0.2s;
+}
+
+.lang-btn:hover {
+    background: #F9FAFB;
+    border-color: #1E88E5;
+}
+
+.lang-btn img {
+    width: 20px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.lang-text {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.lang-arrow {
+    transition: transform 0.2s;
+}
+
+.lang-btn.active .lang-arrow {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    background: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.lang-dropdown.show {
+    display: block;
+    animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lang-option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    color: #374151;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.lang-option:hover {
+    background: #F9FAFB;
+}
+
+.lang-option.active {
+    background: #EFF6FF;
+    color: #1E88E5;
+    font-weight: 600;
+}
+
+.lang-option img {
+    width: 20px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const langButton = document.getElementById('langButton');
+    const langDropdown = document.getElementById('langDropdown');
+
+    if (langButton && langDropdown) {
+        langButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+            langButton.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!langButton.contains(e.target) && !langDropdown.contains(e.target)) {
+                langDropdown.classList.remove('show');
+                langButton.classList.remove('active');
+            }
+        });
+
+        // Close dropdown after language selection
+        const langForm = document.getElementById('language-form');
+        if (langForm) {
+            langForm.addEventListener('submit', function() {
+                langDropdown.classList.remove('show');
+                langButton.classList.remove('active');
+            });
+        }
+    }
+});
+</script>

@@ -10,6 +10,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from . import payment_views  # ← PRIDĖTA
 
 urlpatterns = [
     # ═══════════════════════════════════════════════════════
@@ -65,7 +66,19 @@ urlpatterns = [
     path('report/<int:report_id>/', views.view_report, name='view_report'),
 
     # ═══════════════════════════════════════════════════════
-    # FUNDS
+    # PAYMENT & CREDITS (STRIPE) ← NAUJAS SKYRIUS
+    # ═══════════════════════════════════════════════════════
+    path('buy-credits/', payment_views.buy_credits, name='buy_credits'),
+    path('create-checkout-session/', payment_views.create_checkout_session, name='create_checkout_session'),
+    path('payment-success/', payment_views.payment_success, name='payment_success'),
+    path('payment-cancel/', payment_views.payment_cancel, name='payment_cancel'),
+    path('stripe-webhook/', payment_views.stripe_webhook, name='stripe_webhook'),
+
+    # Stripe Webhook
+    path('webhook/stripe/', payment_views.stripe_webhook, name='stripe_webhook'),
+
+    # ═══════════════════════════════════════════════════════
+    # FUNDS (OLD - OPTIONAL, galima ištrinti jei naudosite tik Stripe)
     # ═══════════════════════════════════════════════════════
     path('add-funds/', views.add_funds, name='add_funds'),
 

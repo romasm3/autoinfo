@@ -1,0 +1,89 @@
+# Polish translation for AutoInfo
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pl\n"
+
+msgid "Home"
+msgstr "Początek"
+
+msgid "Check Vehicle History"
+msgstr "Sprawdź Historię Pojazdu"
+
+msgid "AutoInfo provides access to vehicle information from the United States and Canada. After registering and topping up your account, you will have instant access to reports. Reports are automatically generated 24/7."
+msgstr "AutoInfo zapewnia dostęp do informacji o pojazdach ze Stanów Zjednoczonych i Kanady. Po zarejestrowaniu i doładowaniu konta będziesz mieć natychmiastowy dostęp do raportów. Raporty są generowane automatycznie 24/7."
+
+msgid "Carfax Reports"
+msgstr "Raporty Carfax"
+
+msgid "Autocheck Reports"
+msgstr "Raporty Autocheck"
+
+msgid "NMVTIS Reports"
+msgstr "Raporty NMVTIS"
+
+msgid "Report packages of 1, 10, and 100"
+msgstr "Pakiety raportów 1, 10 i 100"
+
+msgid "Register Now"
+msgstr "Zarejestruj się teraz"
+
+msgid "Check VIN in 3 Easy Steps"
+msgstr "Sprawdź VIN w 3 prostych krokach"
+
+msgid "Checking vehicle identification number (VIN) is important for any car buyer."
+msgstr "Sprawdzenie numeru identyfikacyjnego pojazdu (VIN) jest ważne dla każdego kupującego samochód."
+
+msgid "Register"
+msgstr "Zarejestruj się"
+
+msgid "Registration takes less than 60 seconds."
+msgstr "Rejestracja trwa mniej niż 60 sekund."
+
+msgid "Top Up Account"
+msgstr "Doładuj konto"
+
+msgid "Use BLIK, Przelewy24 or payment card."
+msgstr "Użyj BLIK, Przelewy24 lub karty płatniczej."
+
+msgid "Generate Report"
+msgstr "Wygeneruj raport"
+
+msgid "Reports generated automatically without delay."
+msgstr "Raporty generowane automatycznie bez opóźnień."
+
+msgid "Available Reports"
+msgstr "Dostępne raporty"
+
+msgid "Choose the report type that suits your needs."
+msgstr "Wybierz typ raportu, który odpowiada Twoim potrzebom."
+
+msgid "per report"
+msgstr "za raport"
+
+msgid "Buy Report"
+msgstr "Kup raport"
+
+msgid "Most Popular"
+msgstr "Najpopularniejszy"
+
+msgid "Frequently Asked Questions"
+msgstr "Często zadawane pytania"
+
+msgid "How to pay for the report?"
+msgstr "Jak zapłacić za raport?"
+
+msgid "You can pay using BLIK, Przelewy24, or payment card. After registration, top up your account and purchase reports instantly."
+msgstr "Możesz zapłacić za pomocą BLIK, Przelewy24 lub karty płatniczej. Po rejestracji doładuj konto i natychmiast zakup raporty."
+
+msgid "How long does it take?"
+msgstr "Ile to trwa?"
+
+msgid "Reports are generated automatically within seconds. Our system works 24/7."
+msgstr "Raporty są generowane automatycznie w ciągu kilku sekund. Nasz system działa 24/7."
+
+msgid "What's included in the report?"
+msgstr "Co zawiera raport?"
+
+msgid "Reports include complete vehicle history: accidents, owners, service records, title information, mileage verification."
+msgstr "Raporty zawierają pełną historię pojazdu: wypadki, właścicieli, zapisy serwisowe, informacje o tytule, weryfikację przebiegu."

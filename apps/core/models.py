@@ -1,6 +1,7 @@
 """
 DATABASE MODELIAI - PostgreSQL
 Čia aprašomi visi duomenų bazės modeliai
+✅ UPDATED: Pridėtas report_html field Carfax/Autocheck HTML saugojimui
 """
 from django.db import models
 from django.contrib.auth.models import User
@@ -51,6 +52,7 @@ class Report(models.Model):
     """
     VIN ataskaitos modelis
     Saugo visas sugeneruotas VIN ataskaitas
+    ✅ UPDATED: Pridėtas report_html field pilnam HTML iš CheapCarfax
     """
     REPORT_TYPES = (
         ('carfax', 'Carfax'),
@@ -61,10 +63,20 @@ class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reports')
     vin = models.CharField(max_length=17, db_index=True)
     report_type = models.CharField(max_length=20, choices=REPORT_TYPES)
+
+    # ✅ NAUJAS FIELD - Pilnas HTML reportas iš CheapCarfax API
+    report_html = models.TextField(
+        blank=True,
+        null=True,
+        help_text='Full HTML report from CheapCarfax API'
+    )
+
+    # JSON duomenys (backup)
     report_data = models.JSONField(default=dict, blank=True)
+
     price_paid = models.DecimalField(max_digits=10, decimal_places=2)
 
-    # Ataskaitos rezultatai
+    # Ataskaitos rezultatai (quick access)
     score = models.IntegerField(null=True, blank=True)
     accidents = models.IntegerField(default=0)
     owners = models.IntegerField(default=0)
@@ -97,6 +109,18 @@ class Report(models.Model):
             return 'orange'
         else:
             return 'red'
+
+    @property
+    def has_html(self):
+        """✅ Ar turi HTML reportą"""
+        return bool(self.report_html)
+
+    @property
+    def vehicle_info(self):
+        """✅ Gauti transporto priemonės info"""
+        if self.report_data:
+            return self.report_data.get('yearMakeModel', f'VIN: {self.vin}')
+        return f'VIN: {self.vin}'
 
 
 class Transaction(models.Model):

@@ -1,9 +1,9 @@
 """
 ╔══════════════════════════════════════════════════════════╗
-║  AUTOINFO - DJANGO SETTINGS (SIMPLIFIED)                ║
+║  AUTOINFO - DJANGO SETTINGS (WITH i18n + ROSETTA)       ║
 ╠══════════════════════════════════════════════════════════╣
 ║  LOKACIJA: /autoinfo/config/settings.py                 ║
-║  BE python-decouple - tiesioginės reikšmės              ║
+║  Multi-language support enabled                          ║
 ╚══════════════════════════════════════════════════════════╝
 """
 
@@ -16,7 +16,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ═══════════════════════════════════════════════════════
-# SECURITY - PAKEISK ŠIĄ REIKŠMĘ PRODUCTION!!!
+# SECURITY
 # ═══════════════════════════════════════════════════════
 SECRET_KEY = 'django-insecure-change-this-in-production-k8w2m#n@x!7p$v9&q3a'
 DEBUG = True
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third Party
+    'rosetta',  # Translation management
     'rest_framework',
     'corsheaders',
     'django_filters',
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # ← Language support!
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -61,14 +63,14 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'config.urls'
 
 # ═══════════════════════════════════════════════════════
-# TEMPLATES - PATAISYTA! Ieško abiejose vietose
+# TEMPLATES
 # ═══════════════════════════════════════════════════════
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',  # Root level templates
-            BASE_DIR / 'apps' / 'core' / 'templates',  # App templates
+            BASE_DIR / 'templates',
+            BASE_DIR / 'apps' / 'core' / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -77,6 +79,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',  # ← i18n support!
             ],
         },
     },
@@ -85,28 +88,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # ═══════════════════════════════════════════════════════
-# DATABASE - SQLITE (development) arba POSTGRESQL
+# DATABASE - POSTGRESQL
 # ═══════════════════════════════════════════════════════
-
-# VARIANTAS 1: SQLite (lengviausia pradžiai)
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'autoinfo',
+        'USER': 'autoinfo',
+        'PASSWORD': 'autoinfo',  # PAKEISK ČIA!
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
-# VARIANTAS 2: PostgreSQL (atkomentuok kai reikės)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'autoinfo',
-#         'USER': 'autoinfo_user',
-#         'PASSWORD': 'your_password',  # PAKEISK
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 
 # ═══════════════════════════════════════════════════════
 # PASSWORD VALIDATION
@@ -114,12 +107,42 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = []
 
 # ═══════════════════════════════════════════════════════
-# INTERNATIONALIZATION
+# INTERNATIONALIZATION (MULTI-LANGUAGE)
 # ═══════════════════════════════════════════════════════
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'  # Default language (admin will use this)
 TIME_ZONE = 'UTC'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
+
+# Supported languages
+LANGUAGES = [
+    ('en', 'English'),
+    ('lt', 'Lietuvių'),
+    ('lv', 'Latviešu'),
+    ('pl', 'Polski'),
+    ('de', 'Deutsch'),
+    ('ru', 'Русский'),
+    ('es', 'Español'),
+    ('fr', 'Français'),
+]
+
+# Locale paths for translations
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
+# ═══════════════════════════════════════════════════════
+# ROSETTA TRANSLATION SETTINGS
+# ═══════════════════════════════════════════════════════
+ROSETTA_SHOW_AT_ADMIN_PANEL = True
+ROSETTA_MESSAGES_PER_PAGE = 20
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = False
+ROSETTA_REQUIRE_AUTH = True
+ROSETTA_AUTO_COMPILE = True
+ROSETTA_MESSAGES_SOURCE_LANGUAGE_CODE = 'en'
+ROSETTA_WSGI_AUTO_RELOAD = True
+ROSETTA_UWSGI_AUTO_RELOAD = False
 
 # ═══════════════════════════════════════════════════════
 # STATIC FILES
@@ -148,15 +171,11 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 # ═══════════════════════════════════════════════════════
-# API KEYS (DEMO MODE)
+# API KEYS
 # ═══════════════════════════════════════════════════════
-# ═══════════════════════════════════════════════════════
-# API KEYS - CheapCarfax Integration
-# ═══════════════════════════════════════════════════════
-CHEAPCARFAX_API_KEY = '8mpzhh9qfnp'  # Įrašyk savo API key čia
+CHEAPCARFAX_API_KEY = 'tl9kx8yxkuc'
 CHEAPCARFAX_API_URL = 'https://panel.cheapcarfax.net/api'
 
-# Kiti API (ateičiai)
 CARFAX_API_KEY = ''
 CARFAX_API_URL = 'https://api.carfax.com'
 AUTOCHECK_API_KEY = ''
@@ -165,7 +184,7 @@ NMVTIS_API_KEY = ''
 NMVTIS_API_URL = 'https://api.nmvtis.com'
 
 # ═══════════════════════════════════════════════════════
-# REPORT PRICES (PLN)
+# REPORT PRICES (EUR)
 # ═══════════════════════════════════════════════════════
 REPORT_PRICES = {
     'autocheck': {'single': 12.99, 'pack_10': 11.99, 'pack_100': 8.99},
@@ -174,13 +193,14 @@ REPORT_PRICES = {
 }
 
 # ═══════════════════════════════════════════════════════
-# STRIPE (jei reikės)
+# STRIPE
 # ═══════════════════════════════════════════════════════
 STRIPE_PUBLIC_KEY = ''
 STRIPE_SECRET_KEY = ''
+STRIPE_WEBHOOK_SECRET = ''
 
 # ═══════════════════════════════════════════════════════
-# EMAIL (Console backend - development)
+# EMAIL
 # ═══════════════════════════════════════════════════════
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block title %}Payment Successful - AutoInfo{% endblock %}
+
+{% block content %}
+<section style="padding: 4rem 2rem; text-align: center;">
+    <div style="max-width: 600px; margin: 0 auto; background: white; padding: 3rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        {% if success %}
+        <!-- Success -->
+        <div style="width: 100px; height: 100px; background: #28a745; border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center;">
+            <svg style="width: 60px; height: 60px; fill: white;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+        </div>
+
+        <h1 style="font-size: 2rem; margin-bottom: 1rem; color: #28a745;">Payment Successful!</h1>
+        <p style="font-size: 1.2rem; color: #757575; margin-bottom: 2rem;">
+            Thank you for your purchase!
+        </p>
+
+        <div style="background: #F5F5F5; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1rem;">Purchase Details</h3>
+            <div style="text-align: left;">
+                <p style="margin-bottom: 0.5rem;"><strong>Package:</strong> {{ quantity }}x {{ report_type|title }} Report{% if quantity > 1 %}s{% endif %}</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Reports Available:</strong> {{ quantity }}</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Amount Paid:</strong> €{{ amount }}</p>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="{% url 'dashboard' %}" class="btn-primary" style="text-decoration: none; padding: 1rem 2rem;">
+                Go to Dashboard
+            </a>
+            <a href="{% url 'buy_credits' %}" class="btn-outline" style="text-decoration: none; padding: 1rem 2rem;">
+                Buy More Credits
+            </a>
+        </div>
+
+        {% else %}
+        <!-- Error -->
+        <div style="width: 100px; height: 100px; background: #dc3545; border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center;">
+            <svg style="width: 60px; height: 60px; fill: white;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+        </div>
+
+        <h1 style="font-size: 2rem; margin-bottom: 1rem; color: #dc3545;">Payment Error</h1>
+        <p style="font-size: 1.2rem; color: #757575; margin-bottom: 2rem;">
+            {{ error|default:"An error occurred processing your payment." }}
+        </p>
+
+        <a href="{% url 'buy_credits' %}" class="btn-primary" style="text-decoration: none; padding: 1rem 2rem;">
+            Try Again
+        </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
