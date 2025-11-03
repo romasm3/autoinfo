@@ -200,9 +200,15 @@ STRIPE_SECRET_KEY = ''
 STRIPE_WEBHOOK_SECRET = ''
 
 # ═══════════════════════════════════════════════════════
-# EMAIL
+# EMAIL CONFIGURATION (Gmail SMTP)
 # ═══════════════════════════════════════════════════════
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'romasm3@gmail.com'  # ← JŪSŲ GMAIL
+EMAIL_HOST_PASSWORD = 'otcjtoemearnomdz'  # ← ČIA REIKIA APP PASSWORD!
+DEFAULT_FROM_EMAIL = 'AutoInfo <romasm3@gmail.com>'
 
 # ═══════════════════════════════════════════════════════
 # REST FRAMEWORK
