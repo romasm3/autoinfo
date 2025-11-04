@@ -1,112 +1,281 @@
-{% extends "core/dashboard.html" %}
+{% extends "core/base.html" %}
 {% load static %}
 
-{% block dashboard_content %}
+{% block title %}Activation Instructions - AutoInfo{% endblock %}
+
+{% block extra_css %}
 <style>
-    /* Ultra Simple White Design */
-    .activation-container {
-        background: white;
-        padding: 2rem;
-        max-width: 100%;
-    }
+/* Simple Clean Design */
+.activation-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    background: white;
+}
 
-    .activation-title {
-        text-align: center;
-        margin-bottom: 2.5rem;
-    }
+.page-title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 3rem;
+}
 
-    .activation-title h1 {
-        font-size: 1.75rem;
-        color: #333;
-        font-weight: 600;
-        margin: 0;
-    }
+.instruction-section {
+    margin-bottom: 4rem;
+}
 
-    .step-box {
-        margin-bottom: 2.5rem;
-        border-bottom: 1px solid #e0e0e0;
-        padding-bottom: 2rem;
-    }
+.section-number {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
 
-    .step-box:last-of-type {
-        border-bottom: none;
-    }
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
 
-    .step-title {
-        font-size: 1.1rem;
-        color: #333;
-        font-weight: 600;
-        margin-bottom: 1rem;
-    }
+.section-description {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
 
-    .step-text {
-        font-size: 1rem;
-        color: #555;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-    }
+/* Form Example Box */
+.form-example {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 1rem;
+}
 
-    .screenshot-box {
-        margin-top: 1rem;
-        text-align: center;
-    }
+.form-example-title {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+}
 
-    .screenshot-box img {
-        max-width: 100%;
-        height: auto;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.form-field label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.3rem;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 0.65rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background: white;
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    margin: 1rem 0;
+}
+
+.form-checkbox input {
+    width: auto;
+}
+
+.form-checkbox a {
+    color: #1E88E5;
+    text-decoration: none;
+}
+
+.form-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #1E88E5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.form-footer a {
+    color: #1E88E5;
+    text-decoration: none;
+}
+
+/* Activation Code Example */
+.activation-example {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.activation-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* Report Generation Example */
+.report-example {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+
+.report-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-row input {
+    flex: 1;
+}
+
+.form-row select {
+    flex: 1;
+    padding: 0.65rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background: white;
+}
+
+.generate-button {
+    padding: 0.65rem 2rem;
+    background: #1E88E5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
     }
+}
 </style>
+{% endblock %}
 
+{% block content %}
 <div class="activation-container">
-    <div class="activation-title">
-        <h1>Activation instruction</h1>
-    </div>
 
-    <!-- Step 1 -->
-    <div class="step-box">
-        <h4 class="step-title">1. Registration</h4>
-        <p class="step-text">
+    <!-- Page Title -->
+    <h1 class="page-title">Activation instruction</h1>
+
+    <!-- 1. Registration -->
+    <div class="instruction-section">
+        <div class="section-number">1. Registration</div>
+        <p class="section-description">
             Register by entering your name, email address, and password - you will be automatically redirected to your panel.
         </p>
-        <div class="screenshot-box">
-            <img src="{% static 'core/images/screenshots/registration.png' %}" alt="Registration">
+
+        <div class="form-example">
+            <div class="form-example-title">Zarejestruj się, aby rozpocząć</div>
+
+            <div class="form-field">
+                <label>Imię</label>
+                <input type="text" placeholder="Wpisz swoje imię" disabled>
+            </div>
+
+            <div class="form-field">
+                <label>Adres email</label>
+                <input type="email" placeholder="Wpisz adres email" disabled>
+            </div>
+
+            <div class="form-field">
+                <label>Hasło</label>
+                <input type="password" placeholder="●●●●●●●●" disabled>
+            </div>
+
+            <div class="form-field">
+                <label>Powtórz hasło</label>
+                <input type="password" placeholder="●●●●●●●●" disabled>
+            </div>
+
+            <div class="form-checkbox">
+                <input type="checkbox" disabled>
+                <span>Masz już konto? <a href="#">Zaloguj się</a></span>
+            </div>
+
+            <button class="form-button" disabled>Zarejestruj się</button>
         </div>
     </div>
 
-    <!-- Step 2 -->
-    <div class="step-box">
-        <h4 class="step-title">2. Add credits</h4>
-        <p class="step-text">
-            Click "Buy credits" in the sidebar, choose your package, and complete payment via Stripe. Credits will be instantly added to your account.
+    <!-- 2. Code activation -->
+    <div class="instruction-section">
+        <div class="section-number">2. Code activation</div>
+        <p class="section-description">
+            Enter the code obtained via the email "Enter Activate code" - the account will add credits to the account "seeing the activation."
         </p>
-        <div class="screenshot-box">
-            <img src="{% static 'core/images/screenshots/buy-credits.png' %}" alt="Buy Credits">
+
+        <div class="activation-example">
+            <div class="activation-title">Aktywuj kod</div>
+
+            <div class="form-field">
+                <label>Kod aktywacyjny</label>
+                <input type="text" placeholder="" disabled>
+            </div>
+
+            <button class="generate-button" disabled>Aktywować</button>
         </div>
     </div>
 
-    <!-- Step 3 -->
-    <div class="step-box">
-        <h4 class="step-title">3. Report generation</h4>
-        <p class="step-text">
-            Enter the VIN number of the vehicle, select the report type and press the "Generate" button.
+    <!-- 3. Report generation -->
+    <div class="instruction-section">
+        <div class="section-number">3. Report generation</div>
+        <p class="section-description">
+            To check using VIN methods, ordering the Reports - need.txt provides "Search."
         </p>
-        <div class="screenshot-box">
-            <img src="{% static 'core/images/screenshots/generate-report.png' %}" alt="Generate Report">
+
+        <div class="report-example">
+            <div class="report-title">Generuj raport</div>
+
+            <div class="form-row">
+                <input type="text" placeholder="Numer VIN (np.17zn)" disabled>
+                <select disabled>
+                    <option>Wybierz typ raportu</option>
+                </select>
+                <button class="generate-button" disabled>Generuj</button>
+            </div>
         </div>
     </div>
 
-    <!-- Step 4 -->
-    <div class="step-box">
-        <h4 class="step-title">4. Displaying the report</h4>
-        <p class="step-text">
-            The report will be available at the bottom of the page under the blue "Display report" button within a few seconds.
-        </p>
-        <div class="screenshot-box">
-            <img src="{% static 'core/images/screenshots/view-report.png' %}" alt="View Report">
-        </div>
-    </div>
 </div>
-
 {% endblock %}
