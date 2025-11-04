@@ -1,0 +1,112 @@
+{% extends "core/dashboard.html" %}
+{% load static %}
+
+{% block dashboard_content %}
+<style>
+    /* Ultra Simple White Design */
+    .activation-container {
+        background: white;
+        padding: 2rem;
+        max-width: 100%;
+    }
+
+    .activation-title {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .activation-title h1 {
+        font-size: 1.75rem;
+        color: #333;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .step-box {
+        margin-bottom: 2.5rem;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 2rem;
+    }
+
+    .step-box:last-of-type {
+        border-bottom: none;
+    }
+
+    .step-title {
+        font-size: 1.1rem;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .step-text {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .screenshot-box {
+        margin-top: 1rem;
+        text-align: center;
+    }
+
+    .screenshot-box img {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="activation-container">
+    <div class="activation-title">
+        <h1>Activation instruction</h1>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step-box">
+        <h4 class="step-title">1. Registration</h4>
+        <p class="step-text">
+            Register by entering your name, email address, and password - you will be automatically redirected to your panel.
+        </p>
+        <div class="screenshot-box">
+            <img src="{% static 'core/images/screenshots/registration.png' %}" alt="Registration">
+        </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-box">
+        <h4 class="step-title">2. Add credits</h4>
+        <p class="step-text">
+            Click "Buy credits" in the sidebar, choose your package, and complete payment via Stripe. Credits will be instantly added to your account.
+        </p>
+        <div class="screenshot-box">
+            <img src="{% static 'core/images/screenshots/buy-credits.png' %}" alt="Buy Credits">
+        </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-box">
+        <h4 class="step-title">3. Report generation</h4>
+        <p class="step-text">
+            Enter the VIN number of the vehicle, select the report type and press the "Generate" button.
+        </p>
+        <div class="screenshot-box">
+            <img src="{% static 'core/images/screenshots/generate-report.png' %}" alt="Generate Report">
+        </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-box">
+        <h4 class="step-title">4. Displaying the report</h4>
+        <p class="step-text">
+            The report will be available at the bottom of the page under the blue "Display report" button within a few seconds.
+        </p>
+        <div class="screenshot-box">
+            <img src="{% static 'core/images/screenshots/view-report.png' %}" alt="View Report">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
