@@ -319,6 +319,11 @@ def privacy(request):
     return render(request, 'core/privacy.html')
 
 
+def activation_instructions(request):
+    """Activation instructions page"""
+    return render(request, 'core/activation_instructions.html')
+
+
 # ═══════════════════════════════════════════════════════
 # API ENDPOINTS (JSON)
 # ═══════════════════════════════════════════════════════

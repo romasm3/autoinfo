@@ -66,7 +66,7 @@ urlpatterns = [
     path('report/<int:report_id>/', views.view_report, name='view_report'),
 
     # ═══════════════════════════════════════════════════════
-    # PAYMENT & CREDITS (STRIPE) ← NAUJAS SKYRIUS
+    # PAYMENT & CREDITS (STRIPE)
     # ═══════════════════════════════════════════════════════
     path('buy-credits/', payment_views.buy_credits, name='buy_credits'),
     path('create-checkout-session/', payment_views.create_checkout_session, name='create_checkout_session'),
@@ -90,6 +90,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('terms/', views.terms, name='terms'),
     path('privacy/', views.privacy, name='privacy'),
+    path('activation-instructions/', views.activation_instructions, name='activation_instructions'),
 
     # ═══════════════════════════════════════════════════════
     # API ENDPOINTS
