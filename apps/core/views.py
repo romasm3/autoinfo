@@ -80,7 +80,13 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 remember_me = form.cleaned_data.get('remember_me')
-                if not remember_me:
+
+                # Handle Remember Me functionality
+                if remember_me:
+                    # Keep session for 30 days when Remember Me is checked
+                    request.session.set_expiry(2592000)  # 30 days in seconds
+                else:
+                    # Session expires when browser closes
                     request.session.set_expiry(0)
 
                 messages.success(request, f'Welcome back!')

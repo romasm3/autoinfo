@@ -171,6 +171,16 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
 
 # ═══════════════════════════════════════════════════════
+# SESSION CONFIGURATION (Remember Me support)
+# ═══════════════════════════════════════════════════════
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in seconds (default Django value)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Don't expire by default (controlled by view)
+SESSION_SAVE_EVERY_REQUEST = False  # Only update session when modified
+SESSION_COOKIE_HTTPONLY = True  # Prevent JavaScript access to session cookie
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
+SESSION_COOKIE_SAMESITE = 'Lax'  # CSRF protection
+
+# ═══════════════════════════════════════════════════════
 # API KEYS
 # ═══════════════════════════════════════════════════════
 CHEAPCARFAX_API_KEY = 'tl9kx8yxkuc'
